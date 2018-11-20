@@ -39,12 +39,16 @@ app.post('/api/users/register',(req,res)=>{
 app.post('api/users/login',function(req,res){
     User.findOne({'email': req.body.email},(err,usar)=>{
         if(!user) return res.json({loginSucess: flase , message:'Auth fail email not found '});
+        user.comparePassword(req.body.password,(err,isMatch)=>{
+            if(!ismatch) return res.json({loginSucess: false ,message: "wrong password"});
+
+        })
     })
   
 
 
 })
-
+ 
 app.listen(port,()=>{
 console.log(`server is running on ${port}`)
 })
