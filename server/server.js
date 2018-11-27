@@ -31,6 +31,10 @@ const {
     Brand
 } = require('./models/brand');
 
+const {
+    Wood
+} = require('./models/wood');
+
 //===== MiddleWare======//
 const {
     admin
@@ -68,10 +72,27 @@ app.get('/api/product/brands', (req, res) => {
 // Brands-woods 
 //=======================
 app.post('/api/product/wood', auth, admin, (req, res) => {
+    const wood = new Wood(req.body);
+    wood.save((err, doc) => {
+        if (err) return res.json({
+            sucess: false,
+            err
+        });
+        res.status(200).json({
+            sucess: true,
+            wood: doc
 
+        })
+
+    })
+});
+
+app.get('/api/product/woods', (req, res) => {
+    Wood.find({}, (err, woods) => {
+        if (err) return res.status(400).send(err);
+        res.status(200).send(woods);
+    })
 })
-
-
 //========================
 //      USERS
 //========================
@@ -91,8 +112,8 @@ app.get('/api/users/auth', auth, (req, res) => {
 
 app.get('/api/users/logout', auth, (req, res) => {
     User.findOneAndUpdate({
-            _id: req.user._id
-        }, {
+        _id: req.user._id
+    }, {
             token: ''
         },
         (err, doc) => {
