@@ -35,6 +35,7 @@ const {
     Wood
 } = require('./models/wood');
 
+const { Product } = require('./models/product');
 //===== MiddleWare======//
 const {
     admin
@@ -42,6 +43,27 @@ const {
 const {
     auth
 } = require('./middleware/auth');
+
+
+///===================
+/// PRODUCTS
+///===================
+
+app.post('/api/product/article', aut, admin, (req, res) => {
+
+    product = new Product(req.body)
+    product.save((err, doc) => {
+        if (err) return res.json({ sucess: false, err });
+        res.status(200).json({
+            sucess: true,
+            article: doc
+
+        })
+    });
+
+
+
+});
 
 
 
