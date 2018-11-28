@@ -26,6 +26,9 @@ const productSchema = mongoose.Schema({
         ref: 'Brand',
         required: true,
     },
+    shipping: {
+        require: true
+    }
 
 
 });
